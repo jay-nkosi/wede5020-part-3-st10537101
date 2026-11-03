@@ -1,0 +1,507 @@
+// Sample vehicle inventory for the practical project.
+const vehicles = [
+  {
+    name: "Volkswagen Golf GTI",
+    type: "Hatchback",
+    year: 2019,
+    price: 389900,
+    image: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800",
+    description: "A sporty hatchback with a practical cabin and engaging drive."
+  },
+  {
+    name: "BMW 3 Series",
+    type: "Sedan",
+    year: 2018,
+    price: 329900,
+    image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=800",
+    description: "A premium sedan with a comfortable interior and refined styling."
+  },
+  {
+    name: "Toyota RAV4",
+    type: "SUV",
+    year: 2020,
+    price: 419900,
+    image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=800",
+    description: "A versatile SUV suited to everyday use and longer journeys."
+  },
+  {
+    name: "Mercedes-Benz C-Class",
+    type: "Sedan",
+    year: 2019,
+    price: 449900,
+    image: "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=800",
+    description: "A luxury sedan with smart design and a comfortable ride."
+  },
+  {
+    name: "Ford Fiesta",
+    type: "Hatchback",
+    year: 2017,
+    price: 159900,
+    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800",
+    description: "A compact hatchback that is easy to manoeuvre around town."
+  },
+  {
+    name: "Hyundai Tucson",
+    type: "SUV",
+    year: 2021,
+    price: 359900,
+    image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?w=800",
+    description: "A family-friendly SUV with useful space and a modern look."
+  }
+];
+
+// Format vehicle prices in South African Rand.
+const money = amount => "R" + amount.toLocaleString("en-ZA");
+
+// VEHICLE SEARCH, FILTER AND SORT
+const grid = document.getElementById("vehicleGrid");
+
+function renderVehicles() {
+  const searchInput = document.getElementById("vehicleSearch");
+  const typeInput = document.getElementById("vehicleType");
+  const sortInput = document.getElementById("vehicleSort");
+
+  if (!grid || !searchInput || !typeInput || !sortInput) return;
+
+  const query = searchInput.value.trim().toLowerCase();
+  const type = typeInput.value;
+  const sort = sortInput.value;
+
+  let results = vehicles.filter(car =>
+    (car.name.toLowerCase().includes(query) ||
+     car.type.toLowerCase().includes(query)) &&
+    (type === "all" || car.type === type)
+  );
+
+  if (sort === "low") results.sort((a, b) => a.price - b.price);
+  if (sort === "high") results.sort((a, b) => b.price - a.price);
+  if (sort === "name") results.sort((a, b) => a.name.localeCompare(b.name));
+
+  grid.innerHTML = "";
+
+  if (results.length === 0) {
+    grid.innerHTML = '<p class="empty-state">No vehicles match your search. Try another make, model or vehicle type.</p>';
+    return;
+  }
+
+  results.forEach(car => {
+    const article = document.createElement("article");
+    article.className = "card";
+
+    const img = document.createElement("img");
+    img.src = car.image;
+    img.alt = car.name + " example vehicle";
+    img.loading = "lazy";
+
+    const body = document.createElement("div");
+    body.className = "card-body";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = car.year + " · " + car.type;
+
+    const title = document.createElement("h3");
+    title.textContent = car.name;
+
+    const desc = document.createElement("p");
+    desc.textContent = car.description;
+
+    const price = document.createElement("p");
+    price.className = "price";
+    price.textContent = money(car.price);
+
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.textContent = "Enquire about this car";
+
+    button.addEventListener("click", () => {
+      document.getElementById("enqVehicle").value = car.name;
+      document.getElementById("enqInterest").value = "Buying a vehicle";
+      document.getElementById("enquiry").scrollIntoView({ behavior: "smooth" });
+    });
+
+    body.append(tag, title, desc, price, button);
+    article.append(img, body);
+    grid.append(article);
+  });
+}
+
+["vehicleSearch", "vehicleType", "vehicleSort"].forEach(id => {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.addEventListener(
+      id === "vehicleSearch" ? "input" : "change",
+      renderVehicles
+    );
+  }
+});
+
+renderVehicles();
+
+
+// MOBILE NAVIGATION
+const menuToggle = document.getElementById("menuToggle");
+const nav = document.getElementById("mainNav");
+
+if (menuToggle && nav) {
+  menuToggle.addEventListener("click", () => {
+    const open = nav.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(open));
+  });
+
+  nav.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      nav.classList.remove("open");
+      menuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
+
+
+// ACTIVE NAVIGATION SECTION
+const sections = document.querySelectorAll("main section[id]");
+const navLinks = document.querySelectorAll(".nav a");
+
+if ("IntersectionObserver" in window) {
+  const sectionObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.toggle(
+            "active",
+            link.getAttribute("href") === "#" + entry.target.id
+          );
+        });
+      }
+    });
+  }, { rootMargin: "-35% 0px -55% 0px" });
+
+  sections.forEach(section => sectionObserver.observe(section));
+}
+
+
+// REVEAL SECTIONS WHEN SCROLLING
+if ("IntersectionObserver" in window) {
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll(".reveal, .card").forEach(element => {
+    element.classList.add("reveal");
+    revealObserver.observe(element);
+  });
+}
+
+
+// SERVICE INFORMATION MODAL
+const modal = document.getElementById("infoModal");
+
+if (modal) {
+  document.querySelectorAll(".service-more").forEach(button => {
+    button.addEventListener("click", () => {
+      document.getElementById("modalTitle").textContent = button.dataset.title;
+      document.getElementById("modalText").textContent = button.dataset.info;
+      modal.classList.add("show");
+    });
+  });
+
+  document.getElementById("modalClose")?.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+  document.getElementById("modalEnquire")?.addEventListener("click", () => {
+    modal.classList.remove("show");
+  });
+
+  modal.addEventListener("click", event => {
+    if (event.target === modal) modal.classList.remove("show");
+  });
+}
+
+
+// FAQ ACCORDION
+document.querySelectorAll(".accordion-trigger").forEach(trigger => {
+  trigger.addEventListener("click", () => {
+    const item = trigger.closest(".accordion-item");
+    const willOpen = !item.classList.contains("open");
+
+    document.querySelectorAll(".accordion-item").forEach(other => {
+      other.classList.remove("open");
+      other.querySelector(".accordion-trigger").setAttribute("aria-expanded", "false");
+      other.querySelector(".accordion-trigger span").textContent = "＋";
+    });
+
+    if (willOpen) {
+      item.classList.add("open");
+      trigger.setAttribute("aria-expanded", "true");
+      trigger.querySelector("span").textContent = "−";
+    }
+  });
+});
+
+
+// GALLERY LIGHTBOX
+const lightbox = document.getElementById("lightbox");
+
+function closeLightbox() {
+  if (lightbox) lightbox.classList.remove("show");
+}
+
+if (lightbox) {
+  document.querySelectorAll(".gallery-image").forEach(button => {
+    button.addEventListener("click", () => {
+      const image = button.querySelector("img");
+      document.getElementById("lightboxImage").src = image.src;
+      document.getElementById("lightboxImage").alt = image.alt;
+      lightbox.classList.add("show");
+    });
+  });
+
+  document.getElementById("lightboxClose")?.addEventListener("click", closeLightbox);
+
+  lightbox.addEventListener("click", event => {
+    if (event.target === lightbox) closeLightbox();
+  });
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    if (modal) modal.classList.remove("show");
+    closeLightbox();
+  }
+});
+
+
+// FORM VALIDATION FUNCTIONS
+function setError(id, message) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = message;
+}
+
+function validEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function validPhone(value) {
+  return /^[0-9+() -]{9,20}$/.test(value);
+}
+
+function showNotice(id, message) {
+  const element = document.getElementById(id);
+
+  if (element) {
+    element.textContent = message;
+    element.classList.add("show");
+  }
+}
+
+function openEmail(subject, body) {
+  const recipient = "sales@jaymonateautosa.co.za";
+
+  window.location.href =
+    "mailto:" + recipient +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(body);
+}
+
+
+// VEHICLE ENQUIRY FORM
+const enquiryForm = document.getElementById("enquiryForm");
+
+if (enquiryForm) {
+  enquiryForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    [
+      "enqNameError",
+      "enqEmailError",
+      "enqPhoneError",
+      "enqAreaError",
+      "enqInterestError",
+      "enqMessageError"
+    ].forEach(id => setError(id, ""));
+
+    const name = document.getElementById("enqName").value.trim();
+    const email = document.getElementById("enqEmail").value.trim();
+    const phone = document.getElementById("enqPhone").value.trim();
+    const area = document.getElementById("enqArea").value.trim();
+    const interest = document.getElementById("enqInterest").value;
+    const message = document.getElementById("enqMessage").value.trim();
+
+    let valid = true;
+
+    if (name.length < 2) {
+      setError("enqNameError", "Please enter your full name.");
+      valid = false;
+    }
+
+    if (!validEmail(email)) {
+      setError("enqEmailError", "Enter a valid email address.");
+      valid = false;
+    }
+
+    if (!validPhone(phone)) {
+      setError("enqPhoneError", "Enter a valid phone number.");
+      valid = false;
+    }
+
+    if (!area) {
+      setError("enqAreaError", "Please enter your area or suburb.");
+      valid = false;
+    }
+
+    if (!interest) {
+      setError("enqInterestError", "Please choose the type of enquiry.");
+      valid = false;
+    }
+
+    if (message.length < 10 || message.length > 1000) {
+      setError("enqMessageError", "Your message must be between 10 and 1,000 characters.");
+      valid = false;
+    }
+
+    const date = document.getElementById("enqDate").value;
+
+    if (date && date < new Date().toISOString().slice(0, 10)) {
+      setError("enqMessageError", "Please choose a future test-drive date.");
+      valid = false;
+    }
+
+    if (!valid) {
+      showNotice("enquiryNotice", "Please correct the highlighted fields and submit the form again.");
+      return;
+    }
+
+    const details = [
+      "Name: " + name,
+      "Email: " + email,
+      "Phone: " + phone,
+      "Area: " + area,
+      "Enquiry type: " + interest,
+      "Vehicle: " + document.getElementById("enqVehicle").value,
+      "Preferred date: " + (date || "Not specified"),
+      "Budget: " + (document.getElementById("enqBudget").value || "Not specified"),
+      "",
+      "Message:",
+      message
+    ].join("\n");
+
+    showNotice(
+      "enquiryNotice",
+      "Your details are valid. Your email application should open with the enquiry prepared. Please review and send it."
+    );
+
+    openEmail("Vehicle enquiry - " + name, details);
+  });
+}
+
+
+// GENERAL CONTACT FORM
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", event => {
+    event.preventDefault();
+
+    [
+      "contactNameError",
+      "contactEmailError",
+      "contactPhoneError",
+      "contactTypeError",
+      "contactMessageError"
+    ].forEach(id => setError(id, ""));
+
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const phone = document.getElementById("contactPhone").value.trim();
+    const type = document.getElementById("contactType").value;
+    const message = document.getElementById("contactMessage").value.trim();
+
+    let valid = true;
+
+    if (name.length < 2) {
+      setError("contactNameError", "Please enter your full name.");
+      valid = false;
+    }
+
+    if (!validEmail(email)) {
+      setError("contactEmailError", "Enter a valid email address.");
+      valid = false;
+    }
+
+    if (phone && !validPhone(phone)) {
+      setError("contactPhoneError", "Enter a valid phone number.");
+      valid = false;
+    }
+
+    if (!type) {
+      setError("contactTypeError", "Please select a message type.");
+      valid = false;
+    }
+
+    if (message.length < 10 || message.length > 1200) {
+      setError("contactMessageError", "Your message must be between 10 and 1,200 characters.");
+      valid = false;
+    }
+
+    if (!valid) {
+      showNotice("contactNotice", "Please correct the highlighted fields and try again.");
+      return;
+    }
+
+    const details = [
+      "Name: " + name,
+      "Email: " + email,
+      "Phone: " + (phone || "Not supplied"),
+      "Message type: " + type,
+      "",
+      "Message:",
+      message
+    ].join("\n");
+
+    showNotice(
+      "contactNotice",
+      "Your details are valid. Your email application should open with the message prepared. Please review and send it."
+    );
+
+    openEmail("Website contact - " + type, details);
+  });
+}
+
+
+// JOHANNESBURG MAP
+const mapElement = document.getElementById("map");
+
+if (mapElement) {
+  if (window.L) {
+    const map = L.map("map").setView([-26.2041, 28.0473], 13);
+
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    L.marker([-26.2041, 28.0473])
+      .addTo(map)
+      .bindPopup("<strong>Jay Monate Auto SA</strong><br>45 Roman Street, Johannesburg")
+      .openPopup();
+
+  } else {
+    mapElement.textContent =
+      "Map could not load. Please use the address and contact details shown above.";
+  }
+}
+
+
+// AUTOMATIC FOOTER YEAR
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
