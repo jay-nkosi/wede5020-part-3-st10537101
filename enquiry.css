@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquiry | Jay Monate Auto SA</title>
+    <meta name="description" content="Apply to buy a car or book a test drive at Jay Monate Auto SA">
+    <style>
+        /* =====================================================
+           GENERAL PAGE STYLING
+           ===================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            color: #333333;
+            background-color: #f4f4f4;
+        }
+        /* =====================================================
+           HEADER
+           ===================================================== */
+        header {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 60px;
+            background-color: #111111;
+            border-bottom: 4px solid #d4af37;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        /* =====================================================
+           LOGO
+           ===================================================== */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo img {
+            height: 55px;
+            width: auto;
+            border-radius: 6px;
+        }
+        .logo h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 1px;
+            color: #d4af37;
+        }
+        /* =====================================================
+           NAVIGATION
+           ===================================================== */
+        .nav-menu {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 20px;
+            list-style: none;
+        }
+        .nav-menu a {
+            display: block;
+            padding: 10px 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-decoration: none;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        /* Navigation hover */
+        .nav-menu a:hover {
+            background-color: #d4af37;
+            color: #111111;
+            border-color: #d4af37;
+            box-shadow: 0 3px 8px rgba(212, 175, 55, 0.4);
+        }
+        /* Active page */
+        .nav-menu a.active {
+            color: #d4af37;
+            border-bottom: 2px solid #d4af37;
+        }
+        /* Navigation active click */
+        .nav-menu a:active {
+            background-color: #b8941f;
+            color: #ffffff;
+        }
+        /* =====================================================
+           MAIN CONTENT
+           ===================================================== */
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 50px 30px;
+        }
+        /* =====================================================
+           PAGE INTRODUCTION (with background image)
+           ===================================================== */
+        .page-intro {
+            text-align: center;
+            padding: 60px 30px;
+            margin-bottom: 40px;
+            background-color: #ffffff;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+                              url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1200");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: 1px solid #dddddd;
+            border-top: 5px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            color: #ffffff;
+        }
+        .page-intro h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 40px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+        .page-intro p {
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 1.7;
+            letter-spacing: 0.3px;
+            color: #f0f0f0;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        /* =====================================================
+           CAR IMAGE ABOVE FORM
+           ===================================================== */
+        .car-image {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .car-image img {
+            max-width: 100%;
+            height: auto;
+            max-height: 280px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            object-fit: cover;
+        }
+        /* =====================================================
+           ENQUIRY FORM SECTION
+           ===================================================== */
+        .enquiry-form-section {
+            background-color: #ffffff;
+            padding: 40px;
+            border: 1px solid #dddddd;
+            border-top: 5px solid #d4af37;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        }
+        .enquiry-form-section h3 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 30px;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: 0.5px;
+            color: #111111;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        /* =====================================================
+           FORM
+           ===================================================== */
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 8px;
+        }
+        /* =====================================================
+           FORM LABELS
+           ===================================================== */
+        label {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+            color: #333333;
+            margin-top: 10px;
+        }
+        /* =====================================================
+           INPUTS AND TEXTAREA
+           ===================================================== */
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+            color: #333333;
+            background-color: #fafafa;
+            border: 2px solid #cccccc;
+            border-radius: 5px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        /* Input focus */
+        input:focus,
+        textarea:focus {
+            background-color: #ffffff;
+            border-color: #d4af37;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+        }
+        /* Input hover */
+        input:hover,
+        textarea:hover {
+            border-color: #999999;
+        }
+        /* Textarea */
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        /* =====================================================
+           SUBMIT BUTTON
+           ===================================================== */
+        button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 25px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            line-height: 1.4;
+            letter-spacing: 0.5px;
+            color: #111111;
+            background-color: #d4af37;
+            border: 2px solid #d4af37;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        /* Button hover */
+        button:hover {
+            background-color: #111111;
+            color: #d4af37;
+            border-color: #111111;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        }
+        /* Button active */
+        button:active {
+            transform: translateY(2px);
+            background-color: #333333;
+        }
+        /* Button focus */
+        button:focus {
+            outline: 3px solid rgba(212, 175, 55, 0.5);
+            outline-offset: 3px;
+        }
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+        footer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            background-color: #111111;
+            color: #ffffff;
+            border-top: 4px solid #d4af37;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+        }
+        footer p {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            margin-bottom: 5px;
+        }
+        footer p:last-child {
+            color: #cccccc;
+        }
+        /* =====================================================
+           RESPONSIVE DESIGN
+           ===================================================== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                justify-content: center;
+                gap: 20px;
+                padding: 20px;
+            }
+            .nav-menu {
+                flex-direction: column;
+                justify-content: center;
+                gap: 10px;
+            }
+            main {
+                padding: 30px 20px;
+            }
+            .page-intro h2 {
+                font-size: 32px;
+            }
+            .enquiry-form-section {
+                padding: 25px;
+            }
+            .logo img {
+                height: 45px;
+            }
+        }
+        /* =====================================================
+           MOBILE
+           ===================================================== */
+        @media (max-width: 480px) {
+            body {
+                font-size: 15px;
+            }
+            .logo h1 {
+                font-size: 22px;
+            }
+            .logo img {
+                height: 40px;
+            }
+            .page-intro {
+                padding: 40px 15px;
+            }
+            .page-intro h2 {
+                font-size: 28px;
+            }
+            .enquiry-form-section {
+                padding: 20px;
+            }
+            .enquiry-form-section h3 {
+                font-size: 24px;
+            }
+            input,
+            textarea {
+                font-size: 15px;
+            }
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== HEADER & NAVIGATION ==================== -->
+    <header>
+        <div class="logo">
+            <!-- Replace with your logo -->
+            <img src="Screenshot 2026-10-09 130441.png" 
+                 alt="Jay Monate Auto SA Logo">
+            <h1>Jay Monate Auto SA</h1>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li>
+                    <a href="about.html">About Us</a>
+                </li>
+                <li>
+                    <a href="services.html">Programmes</a>
+                </li>
+                <li>
+                    <a href="enquiry.html" class="active">Enquiry</a>
+                </li>
+                <li>
+                    <a href="contact.html">Contact</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+        <!-- Page heading with background image -->
+        <section class="page-intro">
+            <h2>Get Involved</h2>
+            <p>
+                Whether you'd like to buy a car or book a test drive,
+                complete the form below and our team will be in touch.
+            </p>
+        </section>
+
+        <!-- Car image -->
+        <div class="car-image">
+            <!-- Replace with your own car photo -->
+            <img src="Screenshot 2026-10-09 130258.png" 
+                 alt="Luxury car at Jay Monate Auto SA">
+        </div>
+
+        <!-- ==================== ENQUIRY FORM ==================== -->
+        <section class="enquiry-form-section">
+            <h3>Car Enquiry & Test Drive Registration</h3>
+            <form action="#" method="post" id="contestant-form">
+                <label for="name">
+                    Full Name
+                </label>
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your full name"
+                    required
+                >
+                <label for="age">
+                    Age
+                </label>
+                <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    min="18"
+                    max="100"
+                    placeholder="Enter your age"
+                    required
+                >
+                <label for="email">
+                    Email Address
+                </label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email address"
+                    required
+                >
+                <label for="phone">
+                    Phone Number
+                </label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Enter your phone number"
+                    required
+                >
+                <label for="area">
+                    Area / Suburb
+                </label>
+                <input
+                    type="text"
+                    id="area"
+                    name="area"
+                    placeholder="Enter your area or suburb"
+                    required
+                >
+                <label for="motivation">
+                    What type of car are you interested in?
+                </label>
+                <textarea
+                    id="motivation"
+                    name="motivation"
+                    rows="4"
+                    placeholder="Tell us which car you are interested in or if you would like to book a test drive."
+                ></textarea>
+                <button type="submit">
+                    Submit Enquiry
+                </button>
+            </form>
+        </section>
+    </main>
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>
+            &copy; 2026 Jay Monate Auto SA. All rights reserved.
+        </p>
+        <p>
+            Johannesburg | info@jaymonateautosa.co.za
+        </p>
+    </footer>
+</body>
+</html>
