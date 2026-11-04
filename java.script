@@ -1,0 +1,108 @@
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ========== ENQUIRY FORM ==========
+    const enquiryForm = document.getElementById("Applicationform");
+
+    if (enquiryForm) {
+        enquiryForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const nameInput        = enquiryForm.querySelector("#enquiry-name");
+            const emailInput       = enquiryForm.querySelector("#enquiry-email");
+            const phoneInput       = enquiryForm.querySelector("#enquiry-phone");
+            const areaInput        = enquiryForm.querySelector("#enquiry-area");
+            const availabilityInput = enquiryForm.querySelector("#enquiry-availability");
+
+            // Safety check – stop if any required field is missing in the HTML
+            if (!nameInput || !emailInput || !phoneInput || !areaInput || !availabilityInput) {
+                console.error("One or more enquiry form fields are missing from the HTML");
+                alert("Form configuration error. Please contact the site administrator.");
+                return;
+            }
+
+            const name         = nameInput.value.trim();
+            const email        = emailInput.value.trim();
+            const phone        = phoneInput.value.trim();
+            const area         = areaInput.value;
+            const availability = availabilityInput.value.trim();
+
+            if (!name || !email || !phone || !area || !availability) {
+                alert("Please complete all required fields.");
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Improved phone validation (allows +27, spaces, dashes, brackets)
+            if (!/^[0-9+\s\-()]{10,16}$/.test(phone)) {
+                alert("Please enter a valid phone number.");
+                return;
+            }
+
+            const subject = "Jay Monate Auto SA Enquiry";
+            const message = `Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Area: ${area}
+Availability: ${availability}`;
+
+            window.location.href =
+                `mailto:info@jaymonateautosa.co.za?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
+
+            alert("Your email application will open with your enquiry.");
+        });
+    } else {
+        console.warn("Enquiry form (#Applicationform) not found on the page.");
+    }
+
+
+    // ========== CONTACT FORM ==========
+    const contactForm = document.getElementById("contact-form");
+
+    if (contactForm) {
+        contactForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const nameInput    = contactForm.querySelector("#contact-name");
+            const emailInput   = contactForm.querySelector("#contact-email");
+            const subjectInput = contactForm.querySelector("#contact-subject");
+            const messageInput = contactForm.querySelector("#contact-message");
+
+            if (!nameInput || !emailInput || !subjectInput || !messageInput) {
+                console.error("One or more contact form fields are missing from the HTML");
+                alert("Form configuration error. Please contact the site administrator.");
+                return;
+            }
+
+            const name    = nameInput.value.trim();
+            const email   = emailInput.value.trim();
+            const subject = subjectInput.value.trim();
+            const message = messageInput.value.trim();
+
+            if (!name || !email || !subject || !message) {
+                alert("Please complete all required fields.");
+                return;
+            }
+
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            const emailBody = `Name: ${name}
+Email: ${email}
+Message: ${message}`;
+
+            window.location.href =
+                `mailto:sales@jaymonateautosa.co.za?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+
+            alert("Your email application will open with your message.");
+        });
+    } else {
+        console.warn("Contact form (#contact-form) not found on the page.");
+    }
+
+});
