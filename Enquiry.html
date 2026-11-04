@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="enquiry.css">
+    
+    <title>Enquiry | Jay Monate Auto SA</title>
+    <meta name="description" content="Apply to book a test drive at Jay Monate Auto SA">
+   
+</head>
+<body>
+
+    <!-- ==================== HEADER & NAVIGATION ==================== -->
+    <header>
+        <div class="logo">
+            <h1>Jay Monate Auto SA</h1>
+        </div>
+
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services.html">Programmes</a></li>
+                <li><a href="enquiry.html" class="active">Enquiry</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main>
+
+        <!-- Page heading -->
+        <section class="page-intro">
+            <h2>Get Involved</h2>
+            <p>Whether you'd like to buy a car or book a test drive, complete the relevant form below and our team will be in touch.</p>
+        </section>
+
+        
+
+        <!-- ==================== CONTESTANT REGISTRATION FORM ==================== -->
+        <section class="enquiry-form-section">
+            <h3>Contestant Registration</h3>
+            <form action="#" method="post" id="contestant-form">
+
+                <label for="name">Full Name</label>
+                <input type="text" id="ame" name="name" required>
+
+                <label for="age">Age</label>
+                <input type="number" id="c-age" name="age" min="16" max="25" required>
+
+                <label for="c-email">Email Address</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="hone" name="phone" required>
+
+                <label for="area">Area / Suburb</label>
+                <input type="text" id="area" name="area" required>
+
+                <label for="motivation">Do you want a car?</label>
+                <textarea id="motivation" name="motivation" rows="4"></textarea>
+
+                <button type="submit">Submit Registration</button>
+            </form>
+        </section>
+
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer>
+        <p>&copy; 2026 Jay Monate Auto SA. All rights reserved.</p>
+        <p>Johannesburg | info@jaymonateautosa.co.za</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
